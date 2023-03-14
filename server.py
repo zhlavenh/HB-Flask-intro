@@ -18,14 +18,23 @@ AWESOMENESS = [
 def start_here():
     """Home page."""
 
-    return "<!doctype html><html>Hi! This is the home page.</html>"
+    return """
+    <!doctype html>
+    <html>
+    Hi! This is the home page.
+    <body>
+    <a href="/hello">Go to Hello page</a>
+    </body>
+    </html>
+    
+    """
 
 
 @app.route('/hello')
 def say_hello():
     """Say hello and prompt for user's name."""
 
-    return """
+    return f"""
     <!doctype html>
     <html>
       <head>
@@ -34,8 +43,15 @@ def say_hello():
       <body>
         <h1>Hi There!</h1>
         <form action="/greet">
-          What's your name? <input type="text" name="person">
-          <input type="submit" value="Submit">
+          What's your name? <input type="text" name="person"><br><br>
+
+          <select name="compliments">
+            <option value"">Please choose an option</option>
+            <option value="cool">Cool!</option>
+            <option value="sweet">Sweet!</option>
+          </select><br>
+
+            <input type="submit" value="Submit">
         </form>
       </body>
     </html>
@@ -48,7 +64,7 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
+    compliment = request.args.get("compliments")
 
     return f"""
     <!doctype html>
