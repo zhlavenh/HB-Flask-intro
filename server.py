@@ -12,6 +12,14 @@ AWESOMENESS = [
     'awesome', 'terrific', 'fantastic', 'neato', 'fantabulous', 'wowza',
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
+INSULTS = ['stupid', 'disappointing', 'a gargoyle', 'so bad if Mr.Rogers was your neighbor, he\'d move',
+    'so ugly France called and said can we give their gargoyle back', 
+    'not pretty enough to get away with being that stupid.', 'no trial and all error'
+]
+
+Pages = [
+    '/greet', '/diss'
+]
 
 
 @app.route('/')
@@ -21,9 +29,9 @@ def start_here():
     return """
     <!doctype html>
     <html>
-    Hi! This is the home page.
+    Hi! This is the home page.<br>
     <body>
-    <a href="/hello">Go to Hello page</a>
+    <a href="/hello">Go to hello page</a>
     </body>
     </html>
     
@@ -42,7 +50,7 @@ def say_hello():
       </head>
       <body>
         <h1>Hi There!</h1>
-        <form action="/greet">
+        <form action={choice(Pages)}>
           What's your name? <input type="text" name="person"><br><br>
 
           <select name="compliments">
@@ -78,6 +86,24 @@ def greet_person():
     </html>
     """
 
+@app.route('/diss')
+def insult_person():
+        
+      player = request.args.get("person")
+
+      insult = choice(INSULTS)
+
+      return f"""
+      <!doctype html>
+      <html>
+        <head>
+          <title>An Insult</title>
+        </head>
+        <body>
+          Hi, {player}! I think you're {insult}!
+        </body>
+      </html>
+      """
 
 if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
